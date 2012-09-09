@@ -19,5 +19,184 @@ collection_group {
   metric {
     name_match = "es_(.+)"
   }
+  metric {
+    name = "es_heap_committed"
+    title = "Java Heap Committed"
+  }
+  metric {
+    name = "es_heap_used"
+    title = "Java Heap Used"
+  }
+  metric {
+    name = "es_non_heap_committed"
+    title = "Java Non Heap Committed"
+  }
+  metric {
+    name = "es_non_heap_used"
+    title = "Java Non Heap Used"
+  }
+  metric {
+    name = "es_threads"
+    title = "Threads"
+  }
+  metric {
+    name = "es_threads_peak"
+    title = "Threads Peak"
+  }
+  metric {
+    name = "es_gc_time"
+    title = "Java GC Time"
+  }
+  metric {
+    name = "es_transport_open"
+    title = "Transport Sockets Open"
+  }
+  metric {
+    name = "es_transport_rx_count"
+    title = "Transport Packets Received"
+  }
+  metric {
+    name = "es_transport_rx_size"
+    title = "Transport Bytes Received"
+  }
+  metric {
+    name = "es_transport_tx_count"
+    title = "Transport Packets Sent"
+  }
+  metric {
+    name = "es_transport_tx_size"
+    title = "Transport Bytes Sent"
+  }
+  metric {
+    name = "es_http_total_open"
+    title = "HTTP Open Sockets"
+  }
+  metric {
+    name = "es_indices_size"
+    title = "Index Size"
+  }
+  metric {
+    name = "es_gc_count"
+    title = "Java GC Count"
+  }
+  metric {
+    name = "es_merges_total"
+    title = "Merges"
+  }
+  metric {
+    name = "es_merges_total_docs"
+    title = "Merges by docs"
+  }
+  metric {
+    name = "es_merges_total_size"
+    title = "Merges by size"
+  }
+  metric {
+    name = "es_merges_time"
+    title = "Merges Time"
+  }
+  metric {
+    name = "es_refresh_total"
+    title = "Refreshes"
+  }
+  metric {
+    name = "es_refresh_time"
+    title = "Refresh Time"
+  }
+  metric {
+    name = "es_docs_count"
+    title = "Number of Documents"
+  }
+  metric {
+    name = "es_docs_deleted"
+    title = "Number of Documents Deleted"
+  }
+  metric {
+    name = "es_open_file_descriptors"
+    title = "Open File Descriptors"
+  }
+  metric {
+    name = "es_cache_field_eviction"
+    title = "Field Cache Evictions"
+  }
+  metric {
+    name = "es_cache_field_size"
+    title = "Field Cache Size"
+  }
+  metric {
+    name = "es_cache_filter_count"
+    title = "Filter Cache Count"
+  }
+  metric {
+    name = "es_cache_filter_evictions"
+    title = "Filter Cache Evictions"
+  }
+  metric {
+    name = "es_cache_filter_size"
+    title = "Filter Cache Size"
+  }
+  metric {
+    name = "es_query_time"
+    title = "Query Time"
+  }
+  metric {
+    name = "es_fetch_total"
+    title = "Fetches"
+  }
+  metric {
+    name = "es_fetch_time"
+    title = "Fetch Time"
+  }
+  metric {
+    name = "es_flush_total"
+    title = "Flushes"
+  }
+  metric {
+    name = "es_flush_time"
+    title = "Flush Time"
+  }
+  metric {
+    name = "es_get_exists_time"
+    title = "Exists Time"
+  }
+  metric {
+    name = "es_get_exists_total"
+    title = "Exists"
+  }
+  metric {
+    name = "es_get_time"
+    title = "Get Time"
+  }
+  metric {
+    name = "es_get_total"
+    title = "Gets"
+  }
+  metric {
+    name = "es_get_missing_time"
+    title = "Missing Time"
+  }
+  metric {
+    name = "es_get_missing_total"
+    title = "Missing"
+  }
+  metric {
+    name = "es_indexing_delete_time"
+    title = "Delete Time"
+  }
+  metric {
+    name = "es_indexing_delete_total"
+    title = "Deletes"
+  }
+  metric {
+    name = "es_indexing_index_time"
+    title = "Indexing Time"
+  }
+  metric {
+    name = "es_indexing_index_total"
+    title = "Documents Indexed"
+  }
+  metric {
+    name = "es_query_total"
+    title = "Queries"
+  }
 }
-

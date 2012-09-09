@@ -58,9 +58,6 @@ keyToPath['es_indexing_index_time'] = "nodes.%s.indices.indexing.index_time_in_m
 keyToPath['es_indexing_index_total'] = "nodes.%s.indices.indexing.index_total"
 
 ## MERGES
-keyToPath['es_merges_current'] = "nodes.%s.indices.merges.current"
-keyToPath['es_merges_current_docs'] = "nodes.%s.indices.merges.current_docs"
-keyToPath['es_merges_current_size'] = "nodes.%s.indices.merges.current_size_in_bytes"
 keyToPath['es_merges_total'] = "nodes.%s.indices.merges.total"
 keyToPath['es_merges_total_docs'] = "nodes.%s.indices.merges.total_docs"
 keyToPath['es_merges_total_size'] = "nodes.%s.indices.merges.total_size_in_bytes"
@@ -71,10 +68,8 @@ keyToPath['es_refresh_total'] = "nodes.%s.indices.refresh.total"
 keyToPath['es_refresh_time'] = "nodes.%s.indices.refresh.total_time_in_millis"
 
 ## SEARCH
-keyToPath['es_query_current'] = "nodes.%s.indices.search.query_current"
 keyToPath['es_query_total'] = "nodes.%s.indices.search.query_total"
 keyToPath['es_query_time'] = "nodes.%s.indices.search.query_time_in_millis"
-keyToPath['es_fetch_current'] = "nodes.%s.indices.search.fetch_current"
 keyToPath['es_fetch_total'] = "nodes.%s.indices.search.fetch_total"
 keyToPath['es_fetch_time'] = "nodes.%s.indices.search.fetch_time_in_millis"
 
@@ -104,7 +99,6 @@ keyToPath['es_transport_tx_count'] = "nodes.%s.transport.tx_count"
 keyToPath['es_transport_tx_size'] = "nodes.%s.transport.tx_size_in_bytes"
 
 # HTTP METRICS #
-keyToPath['es_http_current_open'] = "nodes.%s.http.current_open"
 keyToPath['es_http_total_open'] = "nodes.%s.http.total_opened"
 
 # PROCESS METRICS #
@@ -230,7 +224,7 @@ def metric_init(params):
          'units'      : 'rx',
          'format'     : '%d',
          'slope'      : 'positive',
-         'description': 'RX Count',
+         'description': 'Packets per second received',
     }))
 
     descriptors.append(create_desc({
@@ -238,7 +232,7 @@ def metric_init(params):
          'units'      : 'Bytes',
          'format'     : '%.0f',
          'slope'      : 'positive',
-         'description': 'RX (Bytes)',
+         'description': 'Number of bytes per second received',
          'value_type' : 'double',
     }))
 
@@ -247,7 +241,7 @@ def metric_init(params):
          'units'      : 'tx',
          'format'     : '%d',
          'slope'      : 'positive',
-         'description': 'TX Count',
+         'description': 'Packets per second transmitted',
     }))
 
     descriptors.append(create_desc({
@@ -255,20 +249,14 @@ def metric_init(params):
          'units'      : 'Bytes',
          'format'     : '%.0f',
          'slope'      : 'positive',
-         'description': 'TX (Bytes)',
-    }))
-
-    descriptors.append(create_desc({
-         'name'       : 'es_http_current_open',
-         'units'      : 'sockets',
-         'format'     : '%d',
-         'description': 'HTTP Open (sockets)',
+         'description': 'Number of bytes per second transmitted',
     }))
 
     descriptors.append(create_desc({
          'name'       : 'es_http_total_open',
          'units'      : 'sockets',
          'format'     : '%d',
+         'slope'      : 'positive',
          'description': 'HTTP Open (sockets)',
     }))
 
@@ -288,36 +276,17 @@ def metric_init(params):
     }))
 
     descriptors.append(create_desc({
-         'name'       : 'es_merges_current',
-         'format'     : '%d',
-         'description': 'Merges (current)',
-    }))
-    
-    descriptors.append(create_desc({
-         'name'       : 'es_merges_current_docs',
-         'format'     : '%d',
-         'description': 'Merges (docs)',
-    }))
-
-    descriptors.append(create_desc({
          'name'       : 'es_merges_total',
          'format'     : '%d',
          'slope'      : 'positive',
-         'description': 'Merges (total)',
+         'description': 'Number of merges per second',
     }))
 
     descriptors.append(create_desc({
          'name'       : 'es_merges_total_docs',
          'format'     : '%d',
          'slope'      : 'positive',
-         'description': 'Merges (total docs)',
-    }))
-
-    descriptors.append(create_desc({
-         'name'       : 'es_merges_current_size',
-         'units'      : 'Bytes',
-         'format'     : '%.0f',
-         'description': 'Merges size (current)',
+         'description': 'Merges by document count per second',
     }))
 
     descriptors.append(create_desc({
@@ -325,7 +294,7 @@ def metric_init(params):
          'units'      : 'Bytes',
          'format'     : '%.0f',
          'slope'      : 'positive',
-         'description': 'Merges size (total)',
+         'description': 'Merges by size in bytes per second',
          'value_type' : 'double',
     }))
 
@@ -334,7 +303,7 @@ def metric_init(params):
          'units'      : 'ms',
          'format'     : '%d',
          'slope'      : 'positive',
-         'description': 'Merges Time (ms)',
+         'description': 'Time spent merging in ms',
     }))
 
     descriptors.append(create_desc({
@@ -342,7 +311,7 @@ def metric_init(params):
          'units'      : 'refreshes',
          'format'     : '%d',
          'slope'      : 'positive',
-         'description': 'Total Refresh',
+         'description': 'Number of refreshes per second',
     }))
 
     descriptors.append(create_desc({
@@ -350,7 +319,7 @@ def metric_init(params):
          'units'      : 'ms',
          'format'     : '%d',
          'slope'      : 'positive',
-         'description': 'Total Refresh Time',
+         'description': 'Time spent refreshing in ms',
     }))
 
     descriptors.append(create_desc({
@@ -381,7 +350,7 @@ def metric_init(params):
          'units'      : 'units',
          'format'     : '%d',
          'slope'      : 'positive',
-         'description': 'Field Cache Evictions',
+         'description': 'Field Cache Evictions per second',
     }))
 
     descriptors.append(create_desc({
@@ -402,22 +371,15 @@ def metric_init(params):
          'name'       : 'es_cache_filter_evictions',
          'format'     : '%d',
          'slope'      : 'positive',
-         'description': 'Filter Cache Evictions',
+         'description': 'Filter Cache Evictions per second',
     }))
 
     descriptors.append(create_desc({
          'name'       : 'es_cache_filter_size',
          'units'      : 'Bytes',
          'format'     : '%.0f',
-         'description': 'Filter Cache Size',
+         'description': 'Filter Cache Size in bytes',
          'value_type' : 'double',
-    }))
-
-    descriptors.append(create_desc({
-         'name'       : 'es_query_current',
-         'units'      : 'Queries',
-         'format'     : '%d',
-         'description': 'Current Queries',
     }))
 
     descriptors.append(create_desc({
@@ -425,14 +387,7 @@ def metric_init(params):
          'units'      : 'ms',
          'format'     : '%d',
          'slope'      : 'positive',
-         'description': 'Total Query Time',
-    }))
-
-    descriptors.append(create_desc({
-         'name'       : 'es_fetch_current',
-         'units'      : 'fetches',
-         'format'     : '%d',
-         'description': 'Current Fetches',
+         'description': 'Time spent querying in ms',
     }))
 
     descriptors.append(create_desc({
@@ -440,7 +395,7 @@ def metric_init(params):
          'units'      : 'fetches',
          'format'     : '%d',
          'slope'      : 'positive',
-         'description': 'Total Fetches',
+         'description': 'Number of fetches per second',
     }))
 
     descriptors.append(create_desc({
@@ -448,14 +403,15 @@ def metric_init(params):
          'units'      : 'ms',
          'format'     : '%d',
          'slope'      : 'positive',
-         'description': 'Total Fetch Time',
+         'description': 'Time spent fetching in ms',
     }))
 
     descriptors.append(create_desc({
          'name'       : 'es_flush_total',
          'units'      : 'flushes',
          'format'     : '%d',
-         'description': 'Total Flushes',
+         'slope'      : 'positive',
+         'description': 'Number of flushes per second',
     }))
 
     descriptors.append(create_desc({
@@ -463,7 +419,7 @@ def metric_init(params):
          'units'      : 'ms',
          'format'     : '%d',
          'slope'      : 'positive',
-         'description': 'Total Flush Time',
+         'description': 'Time spent flushing in ms',
     }))
 
     descriptors.append(create_desc({
@@ -471,14 +427,15 @@ def metric_init(params):
          'units'      : 'ms',
          'format'     : '%d',
          'slope'      : 'positive',
-         'description': 'Exists Time',
+         'description': 'Time spent exists in ms',
     }))
 
     descriptors.append(create_desc({
          'name'       : 'es_get_exists_total',
          'units'      : 'total',
          'format'     : '%d',
-         'description': 'Exists Total',
+         'slope'      : 'positive',
+         'description': 'Number of Get Exists per second',
     }))
 
     descriptors.append(create_desc({
@@ -486,28 +443,30 @@ def metric_init(params):
          'units'      : 'ms',
          'format'     : '%d',
          'slope'      : 'positive',
-         'description': 'Get Time',
+         'description': 'Time spent getting in ms',
     }))
 
     descriptors.append(create_desc({
          'name'       : 'es_get_total',
          'units'      : 'total',
          'format'     : '%d',
-         'description': 'Get Total',
+         'slope'      : 'positive',
+         'description': 'Number of Gets per second',
     }))
     descriptors.append(create_desc({
          'name'       : 'es_get_missing_time',
          'units'      : 'ms',
          'format'     : '%d',
          'slope'      : 'positive',
-         'description': 'Missing Time',
+         'description': 'Time spent gets missing in ms',
     }))
 
     descriptors.append(create_desc({
          'name'       : 'es_get_missing_total',
          'units'      : 'total',
          'format'     : '%d',
-         'description': 'Missing Total',
+         'slope'      : 'positive',
+         'description': 'Number of Gets Missing per second',
     }))
 
     descriptors.append(create_desc({
@@ -515,7 +474,7 @@ def metric_init(params):
          'units'      : 'ms',
          'format'     : '%d',
          'slope'      : 'positive',
-         'description': 'Delete Time',
+         'description': 'Time spent deleting in ms',
     }))
 
     descriptors.append(create_desc({
@@ -523,7 +482,7 @@ def metric_init(params):
          'units'      : 'docs',
          'format'     : '%d',
          'slope'      : 'positive',
-         'description': 'Delete Total',
+         'description': 'Number of deletes per second',
     }))
 
     descriptors.append(create_desc({
@@ -531,7 +490,7 @@ def metric_init(params):
          'units'      : 'ms',
          'format'     : '%d',
          'slope'      : 'positive',
-         'description': 'Indexing Time',
+         'description': 'Time spent indexing in ms',
     }))
 
     descriptors.append(create_desc({
@@ -539,7 +498,7 @@ def metric_init(params):
          'units'      : 'docs',
          'format'     : '%d',
          'slope'      : 'positive',
-         'description': 'Indexing Documents Total',
+         'description': 'Number of documents indexed per second',
     }))
 
     descriptors.append(create_desc({
@@ -547,7 +506,7 @@ def metric_init(params):
          'units'      : 'Queries',
          'format'     : '%d',
          'slope'      : 'positive',
-         'description': 'Total Queries',
+         'description': 'Number of queries per second',
     }))
     return descriptors
  
