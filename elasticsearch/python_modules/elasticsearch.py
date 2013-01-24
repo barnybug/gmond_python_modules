@@ -112,7 +112,7 @@ def getStat(name):
     diff = now - last_update
     if diff > 20:
         print '[elasticsearch] ' + str(diff) + ' seconds passed - Fetching ' + url
-        result = json.load(urllib.urlopen(url))
+        result = json.load(urllib.urlopen(url, None, 2))
         last_update = now
 
     node = result['nodes'].keys()[0]
@@ -139,7 +139,7 @@ def metric_init(params):
 
     # First iteration - Grab statistics
     print '[elasticsearch] Fetching ' + url
-    result = json.load(urllib.urlopen(url))
+    result = json.load(urllib.urlopen(url, None, 2))
 
     descriptors = []
 
